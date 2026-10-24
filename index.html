@@ -38,6 +38,7 @@ a{color:var(--iris)}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .scroll{overflow-y:auto;scrollbar-width:none}
 .scroll::-webkit-scrollbar{display:none}
+.scroll>*{flex-shrink:0}
 
 .icon-btn{width:44px;height:44px;border-radius:22px;border:none;background:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);flex:none}
 .icon-btn.ghost{background:transparent;box-shadow:none}
