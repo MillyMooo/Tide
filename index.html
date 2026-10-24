@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tide — talk it through</title>
-<meta name="description" content="Tide: a conversational endometriosis symptom tracker. Describe how you feel; Tide sorts it into symptoms.">
+<title>Tide</title>
+<meta name="description" content="Tide: tell it how your body feels and it sorts what you say into symptoms.">
 <meta name="theme-color" content="#FBF5F2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
 :root{
   --bg:#FBF5F2; --blush:#F5DEDA; --line:#F0E4E0; --white:#FFFFFF;
   --ink:#2A2540; --ink-2:#4A4560; --ink-mid:#6B6680; --ink-soft:#8E89A3;
-  --lav:#E9E6FB; --lav-mid:#B9B3F0; --peri:#8A84E0; --iris:#5A53B8;
+  --lav:#E9E6FB; --peri:#8A84E0; --iris:#5A53B8;
   --rose:#A23F55; --pink:#EFA7B5; --sage:#376640;
   --shadow:0 4px 14px rgba(42,37,64,.06);
 }
@@ -28,7 +28,6 @@ a{color:var(--iris)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 :focus-visible{outline:2px solid var(--iris);outline-offset:2px}
 
-/* Phone frame on desktop, full screen on phones */
 .phone{width:390px;height:844px;max-height:calc(100vh - 40px);background:var(--bg);border-radius:44px;overflow:hidden;position:relative;box-shadow:0 30px 80px rgba(42,37,64,.18),0 0 0 10px #fff}
 @media (max-width:500px){
   body{display:block;background:var(--bg)}
@@ -40,17 +39,18 @@ a{color:var(--iris)}
 .scroll{overflow-y:auto;scrollbar-width:none}
 .scroll::-webkit-scrollbar{display:none}
 
-/* Shared pieces */
 .icon-btn{width:44px;height:44px;border-radius:22px;border:none;background:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);flex:none}
 .icon-btn.ghost{background:transparent;box-shadow:none}
 .btn-dark{height:52px;border-radius:26px;border:none;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:500;text-decoration:none}
 .btn-dark.lg{height:56px;border-radius:28px;font-size:16px}
+.btn-dark:disabled{opacity:.4;cursor:default}
 .btn-white{height:44px;padding:0 18px;border-radius:22px;border:none;background:#fff;font-size:14px;font-weight:500}
 .card{background:#fff;border-radius:24px;box-shadow:var(--shadow)}
 .chip{flex:none;display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:500;white-space:nowrap}
 .chip i{width:7px;height:7px;border-radius:4px;display:block}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chips .chip{padding:8px 12px;font-size:13px}
+.muted{font-size:14px;color:var(--ink-mid);line-height:1.45}
 
 .nav{margin:8px 20px 28px;height:68px;border-radius:34px;background:var(--ink);display:flex;align-items:center;justify-content:space-around;padding:0 10px;flex:none}
 .nav button{width:48px;height:48px;border:none;background:transparent;border-radius:24px;display:flex;align-items:center;justify-content:center}
@@ -60,15 +60,20 @@ a{color:var(--iris)}
 .nav button.plus{width:56px;height:56px;border-radius:28px;background:var(--pink)}
 .nav button.plus svg{stroke:var(--ink)}
 
-/* Welcome */
-#welcome{background:var(--blush)}
-.w-hero{position:relative;height:360px;flex:none;display:flex;align-items:center;justify-content:center}
+/* Welcome + profile */
+#welcome,#about{background:var(--blush)}
+.w-hero{position:relative;height:340px;flex:none;display:flex;align-items:center;justify-content:center}
 .w-panel{flex:1;background:var(--bg);border-radius:36px 36px 0 0;padding:30px 26px 34px;display:flex;flex-direction:column;gap:20px}
 .w-feature{display:flex;gap:12px;align-items:center;font-size:14px}
 .w-feature span:first-child{width:36px;height:36px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center}
-.float{position:absolute;box-shadow:0 4px 14px rgba(42,37,64,.08)}
 .bob{animation:bob 4s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-6px)}}
+.form-field{display:flex;flex-direction:column;gap:6px}
+.form-field label{font-size:13px;font-weight:500;color:var(--ink-2)}
+.form-field input{height:54px;border-radius:18px;border:1.5px solid #EADBD7;background:#fff;padding:0 18px;font:inherit;font-size:16px;color:var(--ink);outline:none}
+.form-field input:focus{border-color:var(--peri)}
+.form-field small{font-size:12px;color:var(--ink-mid)}
+.err{font-size:13px;color:var(--rose);min-height:18px}
 
 /* Today */
 .week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
@@ -84,7 +89,7 @@ a{color:var(--iris)}
 .msgs{flex:1;min-height:0;padding:18px 16px 12px;display:flex;flex-direction:column;gap:14px}
 .b-tide{max-width:82%;align-self:flex-start;background:#fff;border-radius:22px 22px 22px 6px;padding:12px 15px;font-size:15px;line-height:1.45;box-shadow:0 3px 12px rgba(42,37,64,.05);animation:fade .25s ease}
 .u-wrap{align-self:flex-end;max-width:86%;display:flex;flex-direction:column;align-items:flex-end;gap:8px;animation:fade .25s ease}
-.b-user{background:var(--ink);color:#fff;border-radius:22px 22px 6px 22px;padding:12px 15px;font-size:15px;line-height:1.45}
+.b-user{background:var(--ink);color:#fff;border-radius:22px 22px 6px 22px;padding:12px 15px;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
 .noticed{font-size:11px;color:var(--ink-mid);font-weight:500;letter-spacing:.04em;display:flex;align-items:center;gap:4px}
 .u-wrap .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 .typing{align-self:flex-start;background:#fff;border-radius:22px 22px 22px 6px;padding:14px 16px;display:flex;gap:5px}
@@ -103,14 +108,14 @@ a{color:var(--iris)}
 .field{flex:1;height:52px;border-radius:26px;background:#fff;display:flex;align-items:center;padding:0 6px 0 18px;box-shadow:0 4px 16px rgba(42,37,64,.07)}
 .field input{flex:1;min-width:0;border:none;outline:none;background:transparent;font:inherit;font-size:16px;color:var(--ink)}
 .field input::placeholder{color:var(--ink-soft)}
-.mic{width:40px;height:40px;border-radius:20px;border:none;background:var(--lav);display:flex;align-items:center;justify-content:center}
+.mic{width:40px;height:40px;border-radius:20px;border:none;background:var(--lav);display:flex;align-items:center;justify-content:center;flex:none}
 .mic.rec{background:var(--pink);animation:pulse 1.2s infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 8px rgba(239,167,181,.3)}}
 .send{width:52px;height:52px;border-radius:26px;border:none;background:var(--ink);display:flex;align-items:center;justify-content:center;flex:none}
 .send:disabled{opacity:.4}
 
 /* Review */
-.r-card{text-align:left;width:100%;border:none;background:#fff;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);animation:fade .3s ease}
+.r-card{text-align:left;width:100%;border:none;background:#fff;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);animation:fade .3s ease;flex:none}
 .r-top{display:flex;align-items:center;gap:10px}
 .r-ico{width:38px;height:38px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex:none}
 .r-ico i{width:12px;height:12px;border-radius:6px}
@@ -119,7 +124,7 @@ a{color:var(--iris)}
 .segs button span{flex:1;height:8px;border-radius:4px;background:#F1EAE7}
 .quote{font-family:'Lora',serif;font-style:italic;font-size:14px;color:var(--ink-2);line-height:1.4}
 .remove{border:none;background:transparent;font-size:12px;color:var(--ink-mid);text-decoration:underline;align-self:flex-start;padding:4px 0}
-.empty{font-size:14px;color:var(--ink-mid);text-align:center;padding:30px 10px}
+.empty{font-size:14px;color:var(--ink-mid);text-align:center;padding:30px 10px;line-height:1.5}
 
 /* Patterns */
 .cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
@@ -128,6 +133,10 @@ a{color:var(--iris)}
 .legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11.5px;color:var(--ink-2)}
 .legend span{display:flex;align-items:center;gap:5px}
 .legend i{width:10px;height:10px;border-radius:5px}
+
+/* You */
+.row-btn{width:100%;min-height:56px;border:none;background:#fff;border-radius:18px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:500;text-align:left}
+.row-btn.danger{color:var(--rose)}
 
 .toast{position:absolute;left:50%;top:54px;transform:translate(-50%,-20px);opacity:0;background:var(--ink);color:#fff;padding:10px 16px;border-radius:20px;font-size:13px;font-weight:500;display:flex;gap:8px;align-items:center;transition:.3s;pointer-events:none;z-index:5;white-space:nowrap}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -139,14 +148,11 @@ a{color:var(--iris)}
 <!-- ============ WELCOME ============ -->
 <section class="screen" id="welcome" aria-label="Welcome">
   <div class="w-hero">
-    <svg aria-hidden="true" width="300" height="290" viewBox="0 0 300 290" style="position:absolute;top:50px">
+    <svg aria-hidden="true" width="300" height="290" viewBox="0 0 300 290" style="position:absolute;top:40px">
       <path d="M150 14c62-4 126 34 134 102 8 66-42 132-114 148-70 16-146-14-164-80C-12 120 28 50 82 28c22-9 44-13 68-14z" fill="#FBF5F2"/>
       <path d="M40 222c30-14 50 10 80-4s50-12 74 0 50 10 78-6" fill="none" stroke="#E9E6FB" stroke-width="10" stroke-linecap="round"/>
     </svg>
-    <svg class="bob mascot" role="img" aria-label="Tide, a small lavender water-drop character, smiling" width="176" height="176" viewBox="0 0 120 120" style="position:relative;margin-top:40px"></svg>
-    <div class="float" style="top:96px;right:34px;background:#fff;border-radius:18px 18px 18px 4px;padding:9px 13px;font-size:13px">How's today feeling?</div>
-    <div class="float chip" style="top:290px;left:28px;background:#F7D9DC;color:#A23F55"><i style="background:#D9707F"></i>Pelvic pain · 6/10</div>
-    <div class="float chip" style="top:312px;right:30px;background:#DCEAF3;color:#2F5A78"><i style="background:#6E9EC0"></i>Fatigue</div>
+    <svg class="bob mascot" role="img" aria-label="Tide, a small lavender water-drop character, smiling" width="176" height="176" viewBox="0 0 120 120" style="position:relative;margin-top:30px"></svg>
   </div>
   <div class="w-panel">
     <div style="display:flex;flex-direction:column;gap:10px">
@@ -158,11 +164,40 @@ a{color:var(--iris)}
       <div class="w-feature"><span style="background:#F7D9DC"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A23F55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span><span><strong style="font-weight:600">Tide sorts the details</strong> into symptoms</span></div>
       <div class="w-feature"><span style="background:#DCEBD8"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#376640" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span><strong style="font-weight:600">You check it</strong> before anything is saved</span></div>
     </div>
-    <div style="margin-top:auto;display:flex;flex-direction:column;gap:10px">
-      <button class="btn-dark lg" data-go="today">Get started</button>
-      <button data-go="today" style="border:none;background:none;font-size:14px;font-weight:500;color:var(--iris);padding:8px">I already have an account</button>
+    <div style="margin-top:auto">
+      <button class="btn-dark lg" style="width:100%" data-go="about">Get started</button>
     </div>
   </div>
+</section>
+
+<!-- ============ ABOUT YOU ============ -->
+<section class="screen" id="about" aria-label="About you">
+  <div style="padding:52px 20px 0;flex:none">
+    <button class="icon-btn" aria-label="Back" data-go="welcome"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  </div>
+  <div style="display:flex;justify-content:center;padding:6px 0 18px;flex:none">
+    <svg class="mascot bob" aria-hidden="true" width="110" height="110" viewBox="0 0 120 120"></svg>
+  </div>
+  <form class="w-panel" id="aboutForm" novalidate>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="eyebrow">Welcome</span>
+      <h1 class="serif" style="font-weight:500;font-size:30px;line-height:1.12">First, a little <span class="it" style="color:var(--rose)">about you.</span></h1>
+      <p class="muted">So Tide knows what to call you. Your age is included in the summary you can take to your GP.</p>
+    </div>
+    <div class="form-field">
+      <label for="nameIn">What should I call you?</label>
+      <input id="nameIn" type="text" autocomplete="given-name" maxlength="40" placeholder="Your first name" required>
+    </div>
+    <div class="form-field">
+      <label for="ageIn">How old are you?</label>
+      <input id="ageIn" type="number" inputmode="numeric" min="10" max="100" placeholder="Age in years" required>
+      <small>Saved only on this device.</small>
+    </div>
+    <p class="err" id="aboutErr" role="alert"></p>
+    <div style="margin-top:auto">
+      <button type="submit" class="btn-dark lg" style="width:100%">Continue</button>
+    </div>
+  </form>
 </section>
 
 <!-- ============ TODAY ============ -->
@@ -174,10 +209,10 @@ a{color:var(--iris)}
         <svg class="mascot" aria-hidden="true" width="40" height="40" viewBox="0 0 120 120"></svg>
         <span class="eyebrow" id="todayDate">Today</span>
       </div>
-      <button class="icon-btn" aria-label="About Tide" data-go="welcome"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
+      <button class="icon-btn" aria-label="You and your data" data-go="you"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
     </div>
     <div>
-      <h1 class="serif" style="font-weight:500;font-size:34px;line-height:1.1" id="greet">Morning, Ana.</h1>
+      <h1 class="serif" style="font-weight:500;font-size:34px;line-height:1.1;overflow-wrap:anywhere" id="greet">Hello.</h1>
       <p class="serif it" style="font-size:20px;color:var(--ink-mid);margin-top:4px">How's your body today?</p>
     </div>
     <div class="week" id="week"></div>
@@ -195,14 +230,14 @@ a{color:var(--iris)}
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;justify-content:space-between;align-items:baseline">
-        <h3 style="font-size:15px;font-weight:500">Yesterday you mentioned</h3>
+        <h3 style="font-size:15px;font-weight:500" id="lastTitle">Last time you mentioned</h3>
         <button data-go="patterns" style="border:none;background:none;font-size:13px;font-weight:500;color:var(--iris)">See patterns</button>
       </div>
-      <div class="chips" id="yesterday"></div>
+      <div class="chips" id="lastChips"></div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
-      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px;border-radius:22px"><span style="font-size:12px;color:var(--ink-mid);font-weight:500">Cycle</span><span class="serif" style="font-size:22px;font-weight:500">Day 24</span><span style="font-size:12px;color:var(--rose);font-weight:500">Period due in ~4 days</span></div>
-      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px;border-radius:22px"><span style="font-size:12px;color:var(--ink-mid);font-weight:500">Check-ins</span><span class="serif" style="font-size:22px;font-weight:500" id="streak">5 this week</span><span style="font-size:12px;color:var(--sage);font-weight:500">Your longest run yet</span></div>
+      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px;border-radius:22px"><span style="font-size:12px;color:var(--ink-mid);font-weight:500">Cycle</span><span class="serif" style="font-size:22px;font-weight:500" id="cycleBig">—</span><span style="font-size:12px;color:var(--rose);font-weight:500;line-height:1.35" id="cycleSmall"></span></div>
+      <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:6px;border-radius:22px"><span style="font-size:12px;color:var(--ink-mid);font-weight:500">Check-ins</span><span class="serif" style="font-size:22px;font-weight:500" id="weekCount">0 this week</span><span style="font-size:12px;color:var(--sage);font-weight:500;line-height:1.35" id="streakText"></span></div>
     </div>
   </div>
   <nav class="nav" aria-label="Main" data-nav="today"></nav>
@@ -217,7 +252,7 @@ a{color:var(--iris)}
       <span class="serif" style="font-size:18px;font-weight:500">Tide</span>
       <span style="font-size:12px;color:var(--sage);display:flex;align-items:center;gap:5px"><i style="width:6px;height:6px;border-radius:3px;background:#7FB287;display:block"></i><span id="status">Listening</span></span>
     </div>
-    <button class="icon-btn ghost" id="reset" aria-label="Start a new conversation"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B6680" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg></button>
+    <button class="icon-btn ghost" id="reset" aria-label="Clear today's conversation"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B6680" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg></button>
   </header>
   <div class="msgs scroll" id="msgs" aria-live="polite"></div>
   <div style="padding:10px 16px 0;display:flex;flex-direction:column;gap:10px;flex:none">
@@ -250,7 +285,7 @@ a{color:var(--iris)}
     </div>
     <div>
       <h1 class="serif" style="font-weight:500;font-size:30px;line-height:1.1">Here's what <span class="it" style="color:var(--rose)">I heard.</span></h1>
-      <p style="font-size:14px;line-height:1.45;color:var(--ink-mid);margin-top:6px">Tap the bar to adjust a score. Nothing is saved until you say so.</p>
+      <p style="font-size:14px;line-height:1.45;color:var(--ink-mid);margin-top:6px">Tap the bar to adjust a score, or remove anything I got wrong.</p>
     </div>
   </div>
   <div class="scroll" id="cards" style="flex:1;min-height:0;padding:4px 20px 16px;display:flex;flex-direction:column;gap:12px"></div>
@@ -269,34 +304,58 @@ a{color:var(--iris)}
     </div>
     <div class="card" style="padding:16px;display:flex;flex-direction:column;gap:12px;border-radius:26px">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <button class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="Previous month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <span class="serif" style="font-size:17px;font-weight:500">October 2026</span>
-        <button class="icon-btn" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="Next month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+        <button class="icon-btn" id="prevM" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="Previous month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <span class="serif" style="font-size:17px;font-weight:500" id="monthLabel"></span>
+        <button class="icon-btn" id="nextM" style="width:36px;height:36px;background:var(--bg);box-shadow:none" aria-label="Next month"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A2540" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
-      <div class="cal" id="cal"><small>M</small><small>T</small><small>W</small><small>T</small><small>F</small><small>S</small><small>S</small></div>
-      <div class="legend"><span><i style="background:#C9505D"></i>Period</span><span><i style="background:#F2B9C0"></i>Flare</span><span><i style="background:#F6E3A6"></i>Mild</span><span><i style="background:#CFE5CB"></i>Calm</span></div>
+      <div class="cal" id="cal"></div>
+      <div class="legend"><span><i style="background:#C9505D"></i>Bleeding</span><span><i style="background:#F2B9C0"></i>Flare (6+)</span><span><i style="background:#F6E3A6"></i>Some symptoms</span><span><i style="background:#CFE5CB"></i>Calm</span></div>
     </div>
     <div class="card" style="padding:18px;display:flex;align-items:center;gap:18px;border-radius:26px">
       <div style="position:relative;width:128px;height:128px;flex:none">
         <svg role="img" aria-label="Share of symptoms this month" width="128" height="128" viewBox="0 0 128 128" style="transform:rotate(-90deg)" id="ring"></svg>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          <span class="serif" style="font-size:34px;font-weight:500;line-height:1">18</span>
+          <span class="serif" style="font-size:34px;font-weight:500;line-height:1" id="ringNum">0</span>
           <span style="font-size:11px;color:var(--ink-mid);text-align:center;line-height:1.2">symptom<br>days</span>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:7px;flex:1" id="ringLegend"><span style="font-size:13px;font-weight:600">Loudest this month</span></div>
+      <div style="display:flex;flex-direction:column;gap:7px;flex:1;min-width:0" id="ringLegend"></div>
     </div>
     <div style="background:var(--lav);border-radius:26px;padding:18px;display:flex;flex-direction:column;gap:12px">
       <div style="display:flex;align-items:center;gap:8px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A53B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg><span class="eyebrow" style="font-weight:600;color:var(--iris)">Tide noticed</span></div>
-      <p class="serif" style="font-size:18px;line-height:1.4">Cramps and brain fog came up together on <span class="it">5 of your last 7</span> check-ins, mostly in the days before your period.</p>
-      <p style="font-size:13px;line-height:1.45;color:var(--ink-2)">This is a pattern in what you've told me, not a diagnosis. It could be worth mentioning at your next appointment.</p>
+      <p class="serif" style="font-size:18px;line-height:1.4" id="insight"></p>
+      <p style="font-size:13px;line-height:1.45;color:var(--ink-2)">Patterns are drawn only from what you've told me. They aren't a diagnosis, but they can be useful to bring to an appointment.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn-dark" style="height:44px;padding:0 18px;font-size:14px" id="gp">Add to GP summary</button>
-        <button class="btn-white" data-go="chat">Ask Tide why</button>
+        <button class="btn-dark" style="height:44px;padding:0 18px;font-size:14px" id="gp">Download GP summary</button>
       </div>
     </div>
   </div>
   <nav class="nav" aria-label="Main" data-nav="patterns"></nav>
+</section>
+
+<!-- ============ YOU ============ -->
+<section class="screen" id="you" aria-label="You and your data">
+  <div class="scroll" style="flex:1;min-height:0;padding:56px 20px 16px;display:flex;flex-direction:column;gap:18px">
+    <div>
+      <span class="eyebrow">You</span>
+      <h1 class="serif" style="font-weight:500;font-size:30px;line-height:1.1;margin-top:4px">Your details <span class="it">&amp; data</span></h1>
+    </div>
+    <form class="card" id="youForm" style="padding:18px;display:flex;flex-direction:column;gap:14px;border-radius:26px" novalidate>
+      <div class="form-field"><label for="youName">Name</label><input id="youName" type="text" maxlength="40" autocomplete="given-name"></div>
+      <div class="form-field"><label for="youAge">Age</label><input id="youAge" type="number" inputmode="numeric" min="10" max="100"></div>
+      <p class="err" id="youErr" role="alert"></p>
+      <button type="submit" class="btn-dark">Save changes</button>
+    </form>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <p class="muted" id="dataInfo"></p>
+      <button class="row-btn" id="exportBtn">Back up my data <span style="color:var(--ink-mid);font-size:13px">.json</span></button>
+      <label class="row-btn" for="importIn" style="cursor:pointer">Restore from a backup <span style="color:var(--ink-mid);font-size:13px">.json</span></label>
+      <input id="importIn" type="file" accept="application/json,.json" class="sr">
+      <button class="row-btn danger" id="wipeBtn">Delete everything</button>
+    </div>
+    <p class="muted" style="font-size:12.5px">Everything stays in this browser on this device. Clearing your browser data will erase it, so back up now and then.</p>
+  </div>
+  <nav class="nav" aria-label="Main" data-nav="you"></nav>
 </section>
 
 <div class="toast" id="toast" role="status"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EFA7B5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg><span id="toastText"></span></div>
@@ -333,10 +392,10 @@ a{color:var(--iris)}
   var PAINFUL = ['pain', 'back', 'head', 'intimacy'];
   var SCORED = PAINFUL.concat(['bloat', 'gut', 'fatigue', 'fog']);
 
-  /* ---------- Prototype categoriser ----------
-     A keyword stand-in for the real AI step. In production, each message
-     would go to a language model that returns the same shape:
-     [{ key, detail, quote }]  */
+  /* ---------- Categoriser ----------
+     Keyword-based, runs entirely in the browser. To swap in a real AI model,
+     replace extract(text) with a call that returns the same shape:
+     [{ key, detail, score }] using the keys in CATS. */
   var RULES = [
     ['pain', /cramp|pelvic|period pain|stabb|womb|ovar|lower (belly|tummy|stomach|abdomen)/],
     ['bloat', /bloat|swollen|endo belly|puffy/],
@@ -365,7 +424,6 @@ a{color:var(--iris)}
     if (/mild|slight|a little|bit of|niggl/.test(t)) return 3;
     return null;
   }
-
   function detailFor(key, t) {
     var bits = [];
     if (PAINFUL.indexOf(key) > -1) {
@@ -394,48 +452,56 @@ a{color:var(--iris)}
     }
     return bits.join(' · ');
   }
-
   function extract(text) {
     var t = text.toLowerCase();
     var found = [];
-    RULES.forEach(function (r) { if (r[1].test(t)) found.push(r[0]); });
+    var young = DB.profile && DB.profile.age < 16;
+    RULES.forEach(function (r) { if (young && r[0] === 'intimacy') return; if (r[1].test(t)) found.push(r[0]); });
     if (/\bpain|hurt|\bache|aching/.test(t) && !found.some(function (k) { return PAINFUL.indexOf(k) > -1; })) found.unshift('pain');
     if (found.indexOf('helped') > -1 && found.length > 1 && !/help|eased|edge off|better|sooth|relie/.test(t) && !/hot water|ibuprofen|paracetamol|naproxen|codeine/.test(t)) {
       found = found.filter(function (k) { return k !== 'helped'; });
     }
     var sc = scoreFrom(t);
-    return found.map(function (k) {
-      return { key: k, detail: detailFor(k, t), score: PAINFUL.indexOf(k) > -1 ? sc : null };
-    });
+    return found.map(function (k) { return { key: k, detail: detailFor(k, t), score: PAINFUL.indexOf(k) > -1 ? sc : null }; });
   }
 
-  /* ---------- State ---------- */
-  function seed() {
-    return {
-      messages: [
-        { from: 'tide', text: "Morning, Ana. How's your body feeling today? Say it however it comes out and I'll sort the details." },
-        { from: 'user', text: 'Woke up with cramps again, sharp on the left side, maybe a 6. Feel really bloated and pretty drained.',
-          tags: [{ key: 'pain', detail: 'sharp · left side', score: 6 }, { key: 'bloat', detail: '', score: null }, { key: 'fatigue', detail: '', score: null }] },
-        { from: 'tide', text: 'That sounds like a heavy start. Has anything helped, even a little?' },
-        { from: 'user', text: 'Hot water bottle took the edge off. My brain feels so foggy at work though.',
-          tags: [{ key: 'helped', detail: 'hot water bottle', score: null }, { key: 'fog', detail: '', score: null }] },
-        { from: 'tide', text: 'Thank you, noted. Brain fog often travels with pain days. How did you sleep last night?' }
-      ],
-      captured: {
-        pain: { detail: 'sharp · left side', score: 6, quote: 'cramps again, sharp on the left side, maybe a 6' },
-        bloat: { detail: '', score: 5, quote: 'really bloated' },
-        fatigue: { detail: '', score: 7, quote: 'pretty drained' },
-        helped: { detail: 'hot water bottle', score: null, quote: 'hot water bottle took the edge off' },
-        fog: { detail: '', score: 4, quote: 'my brain feels so foggy at work' }
-      },
-      order: ['pain', 'bloat', 'fatigue', 'helped', 'fog'],
-      asked: ['helped', 'sleep'],
-      pendingSev: null,
-      typing: false,
-      saved: false
-    };
+  /* ---------- Storage ---------- */
+  var KEY = 'tide.v1';
+  function load() {
+    try { var raw = localStorage.getItem(KEY); if (raw) { var d = JSON.parse(raw); if (d && d.days) return d; } } catch (e) {}
+    return { profile: null, days: {} };
   }
-  var S = seed();
+  var DB = load();
+  var storageOk = true;
+  function persist() {
+    try { localStorage.setItem(KEY, JSON.stringify(DB)); }
+    catch (e) { if (storageOk) { storageOk = false; toast('Couldn’t save on this device'); } }
+  }
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function keyOf(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function fromKey(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function todayKey() { return keyOf(new Date()); }
+  function firstName() { return DB.profile ? DB.profile.name : ''; }
+
+  function day(k) {
+    k = k || todayKey();
+    if (!DB.days[k]) DB.days[k] = { messages: [], captured: {}, order: [], asked: [], pendingSev: null, saved: false, started: null };
+    return DB.days[k];
+  }
+  function ensureGreeting() {
+    var d = day();
+    if (!d.messages.length) {
+      var h = new Date().getHours();
+      var hi = h < 12 ? 'Morning' : h < 18 ? 'Hi' : 'Evening';
+      d.messages.push({ from: 'tide', text: hi + ', ' + firstName() + ". How's your body feeling today? Say it however it comes out and I'll sort the details." });
+      d.started = new Date().toISOString();
+      persist();
+    }
+  }
+  function loggedDays() {
+    return Object.keys(DB.days).filter(function (k) { return DB.days[k].order.length; }).sort();
+  }
 
   /* ---------- Helpers ---------- */
   function $(id) { return document.getElementById(id); }
@@ -444,43 +510,57 @@ a{color:var(--iris)}
     var c = CATS[key];
     return '<span class="chip ' + (extra || '') + '" style="background:' + c.bg + ';color:' + c.fg + '"><i style="background:' + c.dot + '"></i>' + esc(text) + '</span>';
   }
+  function shortOf(v) { return v.score != null ? v.score + '/10' : (v.detail ? v.detail.split(' · ')[0] : ''); }
   function tagText(tg) {
     var parts = [];
     if (tg.score != null) parts.push(tg.score + '/10');
     if (tg.detail) parts.push(tg.detail);
     return CATS[tg.key].label + (parts.length ? ' · ' + parts.join(' · ') : '');
   }
+  function svg(p, w, stroke) { return '<svg aria-hidden="true" width="' + (w || 22) + '" height="' + (w || 22) + '" viewBox="0 0 24 24" fill="none"' + (stroke ? ' stroke="' + stroke + '"' : '') + ' stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
   var toastTimer;
   function toast(msg) {
     $('toastText').textContent = msg;
     $('toast').classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { $('toast').classList.remove('show'); }, 2200);
+    toastTimer = setTimeout(function () { $('toast').classList.remove('show'); }, 2400);
   }
+  function download(name, text, type) {
+    var url = URL.createObjectURL(new Blob([text], { type: type }));
+    var a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 500);
+  }
+  function maxScore(d) {
+    var m = 0; d.order.forEach(function (k) { var s = d.captured[k].score; if (s != null && s > m) m = s; }); return m;
+  }
+  function symptomKeys(d) { return d.order.filter(function (k) { return k !== 'helped'; }); }
 
   /* ---------- Navigation ---------- */
-  var NAV_ICONS = {
+  var ICONS = {
     today: '<path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z"/>',
     patterns: '<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
-    care: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
-    me: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>'
+    you: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>'
   };
-  function svg(p, w) { return '<svg aria-hidden="true" width="' + (w || 22) + '" height="' + (w || 22) + '" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
   document.querySelectorAll('nav[data-nav]').forEach(function (n) {
     var on = n.getAttribute('data-nav');
-    n.innerHTML =
-      '<button aria-label="Today" data-go="today" class="' + (on === 'today' ? 'on' : '') + '">' + svg(NAV_ICONS.today) + '</button>' +
-      '<button aria-label="Patterns" data-go="patterns" class="' + (on === 'patterns' ? 'on' : '') + '">' + svg(NAV_ICONS.patterns) + '</button>' +
-      '<button aria-label="Talk to Tide" data-go="chat" class="plus">' + svg('<path d="M12 5v14M5 12h14"/>', 24) + '</button>' +
-      '<button aria-label="Care" data-go="patterns">' + svg(NAV_ICONS.care) + '</button>' +
-      '<button aria-label="About Tide" data-go="welcome">' + svg(NAV_ICONS.me) + '</button>';
+    function b(k, label) { return '<button aria-label="' + label + '" data-go="' + k + '" class="' + (on === k ? 'on' : '') + '">' + svg(ICONS[k]) + '</button>'; }
+    n.innerHTML = b('today', 'Today') + b('patterns', 'Patterns') +
+      '<button aria-label="Talk to Tide" data-go="chat" class="plus">' + svg('<path d="M12 5v14M5 12h14"/>', 24) + '</button>' + b('you', 'You and your data');
   });
 
   function go(name, opts) {
+    if (!DB.profile && ['welcome', 'about'].indexOf(name) === -1) name = 'welcome';
     document.querySelectorAll('.screen').forEach(function (s) { s.classList.toggle('active', s.id === name); });
-    if (name === 'chat') { renderChat(); if (!(opts && opts.mic)) setTimeout(function () { if (window.innerWidth > 500) $('msg').focus(); }, 50); else startMic(); }
+    if (name === 'chat') {
+      ensureGreeting(); renderChat();
+      if (opts && opts.mic) startMic();
+      else setTimeout(function () { if (window.innerWidth > 500) $('msg').focus(); }, 50);
+    }
+    if (name === 'about') setTimeout(function () { $('nameIn').focus(); }, 50);
     if (name === 'review') renderReview();
     if (name === 'today') renderToday();
+    if (name === 'patterns') renderPatterns();
+    if (name === 'you') renderYou();
     try { history.replaceState(null, '', '#' + name); } catch (e) {}
   }
   document.addEventListener('click', function (e) {
@@ -488,76 +568,135 @@ a{color:var(--iris)}
     if (b) { e.preventDefault(); go(b.getAttribute('data-go'), { mic: b.hasAttribute('data-mic') }); }
   });
 
-  /* ---------- Today ---------- */
-  var now = new Date();
-  var dateLabel = now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
-  $('todayDate').textContent = dateLabel;
-  $('reviewDate').textContent = now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + ' · Cycle day 24';
-  var hr = now.getHours();
-  $('greet').textContent = (hr < 12 ? 'Morning' : hr < 18 ? 'Afternoon' : 'Evening') + ', Ana.';
+  /* ---------- About you ---------- */
+  function readProfile(nameEl, ageEl, errEl) {
+    var name = nameEl.value.trim().replace(/\s+/g, ' ');
+    var age = parseInt(ageEl.value, 10);
+    if (!name) { errEl.textContent = 'Please add your name.'; nameEl.focus(); return null; }
+    if (!age || age < 10 || age > 100) { errEl.textContent = 'Please add your age (10 to 100).'; ageEl.focus(); return null; }
+    errEl.textContent = '';
+    return { name: name, age: age };
+  }
+  ['nameIn', 'ageIn'].forEach(function (id) { $(id).addEventListener('input', function () { $('aboutErr').textContent = ''; }); });
+  $('aboutForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var p = readProfile($('nameIn'), $('ageIn'), $('aboutErr'));
+    if (!p) return;
+    p.created = new Date().toISOString();
+    DB.profile = p; persist();
+    go('today');
+    toast('Nice to meet you, ' + p.name);
+  });
 
+  /* ---------- Today ---------- */
   function renderToday() {
-    var dots = ['#D9707F', '#D9707F', '', '#6E9EC0', '#E2B640', '#D9707F'];
-    var html = '';
+    var now = new Date();
+    $('todayDate').textContent = now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+    var h = now.getHours();
+    $('greet').textContent = (h < 12 ? 'Morning' : h < 18 ? 'Afternoon' : 'Evening') + ', ' + firstName() + '.';
+
+    var html = '', weekCount = 0;
     for (var i = 6; i >= 0; i--) {
       var d = new Date(now); d.setDate(now.getDate() - i);
-      var today = i === 0;
-      var dot = today ? (S.saved ? '#EFA7B5' : 'transparent') : (dots[6 - i] || 'transparent');
-      html += '<div class="' + (today ? 'today' : '') + '"><small>' + 'SMTWTFS'[d.getDay()] + '</small><b>' + d.getDate() + '</b><i style="background:' + dot + '"></i></div>';
+      var rec = DB.days[keyOf(d)];
+      var has = rec && rec.order.length;
+      if (has) weekCount++;
+      var dot = has ? (rec.order.indexOf('cycle') > -1 ? '#C9505D' : maxScore(rec) >= 6 ? '#D9707F' : symptomKeys(rec).length ? '#E2B640' : '#7FB287') : 'transparent';
+      if (i === 0 && has) dot = '#EFA7B5';
+      html += '<div class="' + (i === 0 ? 'today' : '') + '"><small>' + 'SMTWTFS'[d.getDay()] + '</small><b>' + d.getDate() + '</b><i style="background:' + dot + '"></i></div>';
     }
     $('week').innerHTML = html;
-    $('yesterday').innerHTML = chip('pain', 'Pelvic pain · 5/10') + chip('fatigue', 'Fatigue') + chip('bloat', 'Bloating') + chip('helped', 'Helped · heat');
-    if (S.saved) {
+
+    var t = DB.days[todayKey()];
+    if (t && t.saved) {
       $('checkLabel').textContent = 'Logged today';
       $('checkTitle').textContent = 'Thank you for noticing';
-      $('checkText').textContent = S.order.length + ' things captured. You can keep talking if anything changes.';
+      $('checkText').textContent = t.order.length + (t.order.length === 1 ? ' thing' : ' things') + ' captured. Keep talking if anything changes.';
       $('checkBtn').textContent = 'Add more';
-      $('streak').textContent = '6 this week';
+    } else if (t && t.order.length) {
+      $('checkLabel').textContent = 'In progress';
+      $('checkTitle').textContent = 'Pick up where you left off';
+      $('checkText').textContent = t.order.length + ' captured so far. Review and save when you’re ready.';
+      $('checkBtn').textContent = 'Keep going';
+    } else {
+      $('checkLabel').textContent = 'Today’s check-in';
+      $('checkTitle').textContent = 'Talk it through';
+      $('checkText').textContent = 'Tell Tide how you feel in your own words. It sorts the details into symptoms for you.';
+      $('checkBtn').textContent = 'Start typing';
     }
+
+    var past = loggedDays().filter(function (k) { return k < todayKey(); });
+    if (past.length) {
+      var lk = past[past.length - 1], ld = DB.days[lk], diff = Math.round((fromKey(todayKey()) - fromKey(lk)) / 864e5);
+      $('lastTitle').textContent = diff === 1 ? 'Yesterday you mentioned' : 'Last time (' + fromKey(lk).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ') you mentioned';
+      $('lastChips').innerHTML = ld.order.map(function (k) { var s = shortOf(ld.captured[k]); return chip(k, CATS[k].label + (s ? ' · ' + s : '')); }).join('');
+    } else {
+      $('lastTitle').textContent = 'Your first check-in';
+      $('lastChips').innerHTML = '<p class="muted">Once you’ve talked to Tide, what you mentioned will show here so you can compare day to day.</p>';
+    }
+
+    // Cycle: most recent day with bleeding that followed a day without it
+    var bleed = loggedDays().filter(function (k) { return DB.days[k].order.indexOf('cycle') > -1; });
+    var start = null;
+    for (var j = bleed.length - 1; j >= 0; j--) {
+      var prev = new Date(fromKey(bleed[j])); prev.setDate(prev.getDate() - 1);
+      if (bleed.indexOf(keyOf(prev)) === -1) { start = bleed[j]; break; }
+    }
+    if (start) {
+      var cd = Math.round((fromKey(todayKey()) - fromKey(start)) / 864e5) + 1;
+      $('cycleBig').textContent = 'Day ' + cd;
+      $('cycleSmall').textContent = 'Since bleeding began ' + fromKey(start).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    } else {
+      $('cycleBig').textContent = '—';
+      $('cycleSmall').textContent = 'Mention your period in a chat and I’ll start counting';
+    }
+
+    $('weekCount').textContent = weekCount + ' this week';
+    var streak = 0, c = new Date(now);
+    if (!(DB.days[keyOf(c)] && DB.days[keyOf(c)].order.length)) c.setDate(c.getDate() - 1);
+    while (DB.days[keyOf(c)] && DB.days[keyOf(c)].order.length) { streak++; c.setDate(c.getDate() - 1); }
+    $('streakText').textContent = streak > 1 ? streak + '-day run going' : streak === 1 ? 'Day one of a new run' : 'Check in to start a run';
   }
 
   /* ---------- Chat ---------- */
-  var SUGG = ['Slept badly, woke at 3am', 'Feeling a bit low and teary', 'Period started, heavy flow', 'Lower back is aching', 'Feel sick after lunch'];
+  var SUGG = ['My pain today is…', 'I slept…', 'In myself I feel…', 'My period…', 'What helped was…'];
+  var typing = false;
 
   function renderChat(newKeys) {
     newKeys = newKeys || [];
-    var html = '<div class="eyebrow" style="align-self:center">Today · 08:42</div>';
-    S.messages.forEach(function (m) {
+    var d = day();
+    var when = d.started ? new Date(d.started).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '';
+    var html = '<div class="eyebrow" style="align-self:center">Today' + (when ? ' · ' + when : '') + '</div>';
+    d.messages.forEach(function (m) {
       if (m.from === 'tide') html += '<div class="b-tide">' + esc(m.text) + '</div>';
       else {
         html += '<div class="u-wrap"><div class="b-user">' + esc(m.text) + '</div>';
         if (m.tags && m.tags.length) {
-          html += '<span class="noticed">' + svg('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>', 12).replace('fill="none"', 'fill="none" stroke="#5A53B8"') + ' Tide noticed</span><div class="tags">';
+          html += '<span class="noticed">' + svg('<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>', 12, '#5A53B8') + ' Tide noticed</span><div class="tags">';
           m.tags.forEach(function (tg) { html += chip(tg.key, tagText(tg)); });
           html += '</div>';
         }
         html += '</div>';
       }
     });
-    if (S.typing) html += '<div class="typing" aria-label="Tide is typing"><span></span><span></span><span></span></div>';
+    if (typing) html += '<div class="typing" aria-label="Tide is typing"><span></span><span></span><span></span></div>';
     $('msgs').innerHTML = html;
     $('msgs').scrollTop = $('msgs').scrollHeight;
 
-    $('tray').innerHTML = S.order.map(function (k) {
-      var c = S.captured[k];
-      var short = c.score != null ? c.score + '/10' : (c.detail ? c.detail.split(' · ')[0] : '');
-      return chip(k, CATS[k].label + (short ? ' · ' + short : ''), newKeys.indexOf(k) > -1 ? 'pop' : '');
+    $('tray').innerHTML = d.order.map(function (k) {
+      var s = shortOf(d.captured[k]);
+      return chip(k, CATS[k].label + (s ? ' · ' + s : ''), newKeys.indexOf(k) > -1 ? 'pop' : '');
     }).join('') || '<span style="font-size:13px;color:var(--ink-mid)">Nothing yet. Just start talking.</span>';
-    $('count').textContent = '· ' + S.order.length;
-    $('sugg').innerHTML = SUGG.map(function (t) { return '<button type="button" data-say="' + esc(t) + '">' + esc(t) + '</button>'; }).join('');
-    $('send').disabled = S.typing;
+    $('count').textContent = '· ' + d.order.length;
+    $('sugg').innerHTML = SUGG.map(function (t) { return '<button type="button" data-start="' + esc(t.replace('…', ' ')) + '">' + esc(t) + '</button>'; }).join('');
+    $('send').disabled = typing;
   }
 
-  function capture(tg, quote) {
-    var prev = S.captured[tg.key];
-    if (!prev) { S.order.push(tg.key); prev = { detail: '', score: null, quote: quote }; }
-    S.captured[tg.key] = {
-      detail: tg.detail || prev.detail,
-      score: tg.score != null ? tg.score : prev.score,
-      quote: quote || prev.quote
-    };
+  function capture(d, tg, quote) {
+    var prev = d.captured[tg.key];
+    if (!prev) { d.order.push(tg.key); prev = { detail: '', score: null, quote: quote }; }
+    d.captured[tg.key] = { detail: tg.detail || prev.detail, score: tg.score != null ? tg.score : prev.score, quote: quote || prev.quote };
   }
-
   function listNames(tags) {
     var n = tags.map(function (tg) { return CATS[tg.key].label.toLowerCase(); });
     return n.length > 1 ? n.slice(0, -1).join(', ') + ' and ' + n[n.length - 1] : n[0];
@@ -565,80 +704,80 @@ a{color:var(--iris)}
 
   function send(raw) {
     var text = (raw || '').trim();
-    if (!text || S.typing) return;
+    if (!text || typing) return;
+    var d = day();
+    d.saved = false;
     var tags = extract(text);
 
-    // A bare number answers the last "0 to 10" question
-    if (!tags.length && S.pendingSev) {
+    if (!tags.length && d.pendingSev) {
       var n = text.match(/\d{1,2}/);
-      if (n && +n[0] <= 10) {
-        var k = S.pendingSev;
-        tags = [{ key: k, detail: '', score: +n[0] }];
-        S.messages.push({ from: 'user', text: text, tags: [{ key: k, detail: S.captured[k].detail, score: +n[0] }] });
-        S.captured[k].score = +n[0];
-        S.pendingSev = null;
-        reply(followUp(tags, true), [k]);
+      if (n && +n[0] <= 10 && d.captured[d.pendingSev]) {
+        var k = d.pendingSev;
+        d.captured[k].score = +n[0];
+        d.messages.push({ from: 'user', text: text, tags: [{ key: k, detail: d.captured[k].detail, score: +n[0] }] });
+        d.pendingSev = null;
+        persist();
+        reply(followUp(d, [{ key: k }], true), [k]);
         return;
       }
     }
-
     var newKeys = [];
     tags.forEach(function (tg) {
-      if (!S.captured[tg.key]) newKeys.push(tg.key);
-      capture(tg, text.length > 70 ? text.slice(0, 68) + '…' : text);
+      if (!d.captured[tg.key]) newKeys.push(tg.key);
+      capture(d, tg, text.length > 90 ? text.slice(0, 88) + '…' : text);
     });
-    S.messages.push({ from: 'user', text: text, tags: tags });
-    reply(followUp(tags, false), newKeys.length ? newKeys : tags.map(function (t) { return t.key; }));
+    d.messages.push({ from: 'user', text: text, tags: tags });
+    var r = followUp(d, tags, false);
+    persist();
+    reply(r, newKeys.length ? newKeys : tags.map(function (t) { return t.key; }));
   }
 
-  function followUp(tags, wasScore) {
+  function followUp(d, tags, wasScore) {
     if (!tags.length) return "Thank you for telling me. Could you say a bit more about where you feel it, or how it's affecting your day?";
-    var unscored = !wasScore && tags.find(function (tg) { return PAINFUL.indexOf(tg.key) > -1 && S.captured[tg.key].score == null; });
+    var unscored = !wasScore && tags.find(function (tg) { return PAINFUL.indexOf(tg.key) > -1 && d.captured[tg.key].score == null; });
     if (unscored) {
-      S.pendingSev = unscored.key;
-      return "I've noted " + listNames(tags) + '. If 0 is nothing and 10 is the worst you\'ve known, where is the ' + CATS[unscored.key].label.toLowerCase() + ' sitting right now?';
+      d.pendingSev = unscored.key;
+      return "I've noted " + listNames(tags) + ". If 0 is nothing and 10 is the worst you've known, where is the " + CATS[unscored.key].label.toLowerCase() + ' sitting right now?';
     }
-    S.pendingSev = null;
-    var next = ASKS.find(function (a) { return !S.captured[a[0]] && S.asked.indexOf(a[0]) === -1; });
-    var lead = wasScore ? 'Thank you, I\'ve logged that as ' + S.captured[tags[0].key].score + ' out of 10. ' : "Got it, I've added " + listNames(tags) + '. ';
-    if (next) { S.asked.push(next[0]); return lead + next[1]; }
+    d.pendingSev = null;
+    var next = ASKS.find(function (a) { return !d.captured[a[0]] && d.asked.indexOf(a[0]) === -1; });
+    var lead = wasScore ? "Thank you, I've logged that as " + d.captured[tags[0].key].score + ' out of 10. ' : "Got it, I've added " + listNames(tags) + '. ';
+    if (next) { d.asked.push(next[0]); return lead + next[1]; }
     return lead + "That gives me a clear picture of today. Tap Review when you're ready and I'll show you everything I've sorted.";
   }
 
   var replyTimer;
   function reply(text, newKeys) {
-    S.typing = true;
+    typing = true;
     $('status').textContent = 'Sorting what you said…';
     renderChat(newKeys);
     clearTimeout(replyTimer);
     replyTimer = setTimeout(function () {
-      S.typing = false;
-      S.messages.push({ from: 'tide', text: text });
+      typing = false;
+      day().messages.push({ from: 'tide', text: text });
+      persist();
       $('status').textContent = 'Listening';
       renderChat();
-    }, 1100);
+    }, 900);
   }
 
   $('composer').addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = $('msg').value;
-    $('msg').value = '';
-    send(v);
+    var v = $('msg').value; $('msg').value = ''; send(v);
   });
   $('sugg').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-say]');
-    if (b) send(b.getAttribute('data-say'));
+    var b = e.target.closest('[data-start]');
+    if (b) { $('msg').value = b.getAttribute('data-start'); $('msg').focus(); }
   });
   $('reset').addEventListener('click', function () {
-    clearTimeout(replyTimer);
-    var saved = S.saved;
-    S = seed(); S.saved = saved;
-    S.messages = [S.messages[0]]; S.captured = {}; S.order = []; S.asked = [];
+    if (!confirm('Clear today’s conversation and everything captured today?')) return;
+    clearTimeout(replyTimer); typing = false;
+    delete DB.days[todayKey()];
+    ensureGreeting();
     $('status').textContent = 'Listening';
     renderChat();
   });
 
-  /* Voice input: uses the browser's speech recognition where available */
   var Rec = window.SpeechRecognition || window.webkitSpeechRecognition, rec = null;
   function startMic() {
     if (!Rec) { toast('Voice input isn’t supported in this browser'); return; }
@@ -650,74 +789,203 @@ a{color:var(--iris)}
       $('msg').value = t;
       if (e.results[e.results.length - 1].isFinal) { $('msg').value = ''; send(t); }
     };
-    rec.onend = rec.onerror = function () { $('mic').classList.remove('rec'); if (!S.typing) $('status').textContent = 'Listening'; rec = null; };
-    rec.start();
+    rec.onend = rec.onerror = function () { $('mic').classList.remove('rec'); if (!typing) $('status').textContent = 'Listening'; rec = null; };
+    try { rec.start(); } catch (err) { rec = null; $('mic').classList.remove('rec'); }
   }
   $('mic').addEventListener('click', startMic);
 
   /* ---------- Review ---------- */
   function renderReview() {
-    if (!S.order.length) {
-      $('cards').innerHTML = '<p class="empty">Nothing captured yet.<br>Tell Tide how you’re feeling and it’ll show up here.</p>';
+    var d = day();
+    $('reviewDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    var html;
+    if (!d.order.length) {
+      html = '<p class="empty">Nothing captured yet.<br>Tell Tide how you’re feeling and it’ll show up here.</p>';
     } else {
-      $('cards').innerHTML = S.order.map(function (k) {
-        var c = CATS[k], v = S.captured[k];
-        var scored = SCORED.indexOf(k) > -1;
-        var val = v.score != null ? v.score + '/10' : (v.detail ? v.detail.split(' · ')[0] : 'Noted');
-        val = val.charAt(0).toUpperCase() + val.slice(1);
+      html = d.order.map(function (k) {
+        var c = CATS[k], v = d.captured[k], scored = SCORED.indexOf(k) > -1;
+        var val = shortOf(v) || 'Noted'; val = val.charAt(0).toUpperCase() + val.slice(1);
         var segs = '';
-        if (scored) {
-          for (var i = 1; i <= 10; i++) segs += '<button type="button" data-k="' + k + '" data-s="' + i + '" aria-label="Set ' + c.label + ' to ' + i + '"><span style="background:' + (v.score != null && i <= v.score ? c.dot : '#F1EAE7') + '"></span></button>';
-        }
+        if (scored) for (var i = 1; i <= 10; i++) segs += '<button type="button" data-k="' + k + '" data-s="' + i + '" aria-label="Set ' + c.label + ' to ' + i + ' out of 10"><span style="background:' + (v.score != null && i <= v.score ? c.dot : '#F1EAE7') + '"></span></button>';
+        var meta = v.detail ? v.detail.charAt(0).toUpperCase() + v.detail.slice(1) : (scored && v.score == null ? 'Tap the bar to add a score' : 'From today’s chat');
         return '<div class="r-card"><div class="r-top"><span class="r-ico" style="background:' + c.bg + '"><i style="background:' + c.dot + '"></i></span>' +
-          '<span style="flex:1;display:flex;flex-direction:column"><span style="font-size:16px;font-weight:500">' + c.label + '</span><span style="font-size:12.5px;color:var(--ink-mid)">' + esc(v.detail ? v.detail.charAt(0).toUpperCase() + v.detail.slice(1) : (scored && v.score == null ? 'Tap the bar to add a score' : 'From today’s chat')) + '</span></span>' +
+          '<span style="flex:1;display:flex;flex-direction:column"><span style="font-size:16px;font-weight:500">' + c.label + '</span><span style="font-size:12.5px;color:var(--ink-mid)">' + esc(meta) + '</span></span>' +
           '<span class="chip" style="font-size:13px;font-weight:600;background:' + c.bg + ';color:' + c.fg + '">' + esc(val) + '</span></div>' +
           (scored ? '<div class="segs">' + segs + '</div>' : '') +
           '<span class="quote">“' + esc(v.quote) + '”</span>' +
           '<button type="button" class="remove" data-rm="' + k + '">Not right? Remove</button></div>';
       }).join('');
     }
-    $('cards').insertAdjacentHTML('beforeend', '<button data-go="chat" style="height:52px;border-radius:22px;border:1.5px dashed #D6C6E8;background:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;color:var(--iris);flex:none">' + svg('<path d="M12 5v14M5 12h14"/>', 18).replace('fill="none"', 'fill="none" stroke="#5A53B8"') + 'Something I missed? Tell me</button>');
+    html += '<button data-go="chat" style="height:52px;border-radius:22px;border:1.5px dashed #D6C6E8;background:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;font-weight:500;color:var(--iris);flex:none">' + svg('<path d="M12 5v14M5 12h14"/>', 18, '#5A53B8') + (d.order.length ? 'Something I missed? Tell me' : 'Talk to Tide') + '</button>';
+    $('cards').innerHTML = html;
+    $('save').disabled = !d.order.length;
   }
   $('cards').addEventListener('click', function (e) {
+    var d = day();
     var s = e.target.closest('[data-s]');
-    if (s) { S.captured[s.getAttribute('data-k')].score = +s.getAttribute('data-s'); renderReview(); return; }
+    if (s) { d.captured[s.getAttribute('data-k')].score = +s.getAttribute('data-s'); d.saved = false; persist(); renderReview(); return; }
     var r = e.target.closest('[data-rm]');
-    if (r) { var k = r.getAttribute('data-rm'); delete S.captured[k]; S.order = S.order.filter(function (x) { return x !== k; }); renderReview(); }
+    if (r) { var k = r.getAttribute('data-rm'); delete d.captured[k]; d.order = d.order.filter(function (x) { return x !== k; }); d.saved = false; persist(); renderReview(); }
   });
   $('save').addEventListener('click', function () {
-    S.saved = true;
+    var d = day(); if (!d.order.length) return;
+    d.saved = true; d.savedAt = new Date().toISOString(); persist();
     go('patterns');
     toast('Today’s entry saved');
   });
-  $('gp').addEventListener('click', function () { toast('Added to your GP summary'); });
 
   /* ---------- Patterns ---------- */
-  (function () {
-    var log = { 1: 'P', 2: 'P', 3: 'F', 4: 'M', 5: 'C', 6: 'C', 7: 'M', 8: 'C', 9: 'C', 10: 'C', 11: 'M', 12: 'C', 13: 'M', 14: 'F', 15: 'M', 16: 'C', 17: 'M', 18: 'F', 19: 'F', 20: 'C', 21: 'M', 22: 'M', 23: 'F', 24: 'F' };
+  var viewMonth = new Date(); viewMonth.setDate(1);
+  function status(d) {
+    if (!d || !d.order.length) return null;
+    if (d.order.indexOf('cycle') > -1) return 'P';
+    var m = maxScore(d);
+    if (m >= 6) return 'F';
+    if (m >= 4 || (symptomKeys(d).length && m === 0)) return 'M';
+    return 'C';
+  }
+  function renderPatterns() {
+    var y = viewMonth.getFullYear(), mo = viewMonth.getMonth();
+    $('monthLabel').textContent = viewMonth.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    var now = new Date();
+    $('nextM').disabled = y === now.getFullYear() && mo === now.getMonth();
+    $('nextM').style.opacity = $('nextM').disabled ? .35 : 1;
     var fills = { P: ['#C9505D', '#fff'], F: ['#F2B9C0', '#7E2B3C'], M: ['#F6E3A6', '#6B4F06'], C: ['#CFE5CB', '#2F5A36'] };
-    var html = '<span></span><span></span><span></span>';
-    for (var i = 1; i <= 31; i++) {
-      var f = fills[log[i]];
-      html += '<span style="' + (f ? 'background:' + f[0] + ';color:' + f[1] + ';' : '') + (i === 24 ? 'box-shadow:0 0 0 2px #2A2540;' : '') + '">' + i + '</span>';
+    var html = '<small>M</small><small>T</small><small>W</small><small>T</small><small>F</small><small>S</small><small>S</small>';
+    var lead = (new Date(y, mo, 1).getDay() + 6) % 7;
+    for (var b = 0; b < lead; b++) html += '<span></span>';
+    var dim = new Date(y, mo + 1, 0).getDate();
+    var counts = {}, symptomDays = 0, tk = todayKey();
+    for (var i = 1; i <= dim; i++) {
+      var k = keyOf(new Date(y, mo, i)), rec = DB.days[k], st = status(rec), f = fills[st];
+      if (rec && rec.order.length) {
+        if (symptomKeys(rec).length) symptomDays++;
+        symptomKeys(rec).forEach(function (s) { counts[s] = (counts[s] || 0) + 1; });
+      }
+      html += '<span style="' + (f ? 'background:' + f[0] + ';color:' + f[1] + ';' : '') + (k === tk ? 'box-shadow:0 0 0 2px #2A2540;' : '') + '">' + i + '</span>';
     }
-    $('cal').insertAdjacentHTML('beforeend', html);
+    $('cal').innerHTML = html;
 
-    var parts = [['Pelvic pain', 12, '#D9707F'], ['Fatigue', 10, '#6E9EC0'], ['Bloating', 7, '#E2B640'], ['Brain fog', 6, '#9F8DBE'], ['Low mood', 4, '#D27AAA']];
-    var C = 2 * Math.PI * 52, total = 39, gap = 14, acc = 0, ring = '', leg = '';
-    parts.forEach(function (p) {
-      var len = p[1] / total * C;
-      ring += '<circle cx="64" cy="64" r="52" fill="none" stroke="' + p[2] + '" stroke-width="14" stroke-linecap="round" stroke-dasharray="' + Math.max(len - gap, 2).toFixed(1) + ' ' + C.toFixed(1) + '" stroke-dashoffset="' + (-acc).toFixed(1) + '"/>';
-      leg += '<span style="display:flex;align-items:center;gap:7px;font-size:13px"><i style="width:9px;height:9px;border-radius:5px;background:' + p[2] + ';display:block"></i><span style="flex:1">' + p[0] + '</span><span style="color:var(--ink-mid)">' + p[1] + 'd</span></span>';
-      acc += len;
-    });
+    var parts = Object.keys(counts).map(function (k) { return [k, counts[k]]; }).sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+    var C = 2 * Math.PI * 52, total = parts.reduce(function (a, p) { return a + p[1]; }, 0);
+    var ring = '<circle cx="64" cy="64" r="52" fill="none" stroke="#F1EAE7" stroke-width="14"/>', leg = '<span style="font-size:13px;font-weight:600">Loudest this month</span>';
+    if (parts.length) {
+      var gap = parts.length > 1 ? 14 : 0, acc = 0;
+      parts.forEach(function (p) {
+        var len = p[1] / total * C, col = CATS[p[0]].dot;
+        ring += '<circle cx="64" cy="64" r="52" fill="none" stroke="' + col + '" stroke-width="14" stroke-linecap="round" stroke-dasharray="' + Math.max(len - gap, 2).toFixed(1) + ' ' + C.toFixed(1) + '" stroke-dashoffset="' + (-acc).toFixed(1) + '"/>';
+        leg += '<span style="display:flex;align-items:center;gap:7px;font-size:13px"><i style="width:9px;height:9px;border-radius:5px;background:' + col + ';display:block;flex:none"></i><span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + CATS[p[0]].label + '</span><span style="color:var(--ink-mid)">' + p[1] + 'd</span></span>';
+        acc += len;
+      });
+    } else {
+      leg += '<span class="muted" style="font-size:13px">Nothing logged this month yet.</span>';
+    }
     $('ring').innerHTML = ring;
-    $('ringLegend').insertAdjacentHTML('beforeend', leg);
-  })();
+    $('ringLegend').innerHTML = leg;
+    $('ringNum').textContent = symptomDays;
+    $('insight').innerHTML = insight();
+  }
+  function insight() {
+    var days = loggedDays().slice(-14).map(function (k) { return DB.days[k]; });
+    if (days.length < 3) {
+      var left = 3 - days.length;
+      return 'Keep checking in. After ' + left + ' more ' + (left === 1 ? 'day' : 'days') + ' I’ll start looking for patterns.';
+    }
+    var pairs = {};
+    days.forEach(function (d) {
+      var ks = symptomKeys(d);
+      for (var i = 0; i < ks.length; i++) for (var j = i + 1; j < ks.length; j++) {
+        var key = [ks[i], ks[j]].sort().join('|'); pairs[key] = (pairs[key] || 0) + 1;
+      }
+    });
+    var best = Object.keys(pairs).sort(function (a, b) { return pairs[b] - pairs[a]; })[0];
+    if (best && pairs[best] >= 2) {
+      var ab = best.split('|');
+      return esc(CATS[ab[0]].label) + ' and ' + esc(CATS[ab[1]].label.toLowerCase()) + ' came up together on <span class="it">' + pairs[best] + ' of your last ' + days.length + '</span> check-ins.';
+    }
+    var single = {}; days.forEach(function (d) { symptomKeys(d).forEach(function (k) { single[k] = (single[k] || 0) + 1; }); });
+    var top = Object.keys(single).sort(function (a, b) { return single[b] - single[a]; })[0];
+    if (top) return esc(CATS[top].label) + ' has been the most frequent, on <span class="it">' + single[top] + ' of your last ' + days.length + '</span> check-ins.';
+    return 'Your last ' + days.length + ' check-ins have been fairly calm.';
+  }
+  $('prevM').addEventListener('click', function () { viewMonth.setMonth(viewMonth.getMonth() - 1); renderPatterns(); });
+  $('nextM').addEventListener('click', function () { if (!$('nextM').disabled) { viewMonth.setMonth(viewMonth.getMonth() + 1); renderPatterns(); } });
+
+  $('gp').addEventListener('click', function () {
+    var ks = loggedDays();
+    if (!ks.length) { toast('Nothing logged yet'); return; }
+    var p = DB.profile, out = [];
+    out.push('TIDE SYMPTOM SUMMARY');
+    out.push('Name: ' + p.name + '    Age: ' + p.age);
+    out.push('Period covered: ' + fromKey(ks[0]).toLocaleDateString('en-GB') + ' to ' + fromKey(ks[ks.length - 1]).toLocaleDateString('en-GB') + ' (' + ks.length + (ks.length === 1 ? ' day' : ' days') + ' logged)');
+    out.push('Generated: ' + new Date().toLocaleString('en-GB'));
+    out.push('');
+    var freq = {}; ks.forEach(function (k) { symptomKeys(DB.days[k]).forEach(function (s) { freq[s] = (freq[s] || 0) + 1; }); });
+    out.push('MOST FREQUENT');
+    Object.keys(freq).sort(function (a, b) { return freq[b] - freq[a]; }).forEach(function (s) {
+      var scores = ks.map(function (k) { var v = DB.days[k].captured[s]; return v && v.score; }).filter(function (x) { return x != null; });
+      var avg = scores.length ? ' (average ' + (scores.reduce(function (a, b) { return a + b; }, 0) / scores.length).toFixed(1) + '/10, max ' + Math.max.apply(null, scores) + '/10)' : '';
+      out.push('- ' + CATS[s].label + ': ' + freq[s] + (freq[s] === 1 ? ' day' : ' days') + avg);
+    });
+    out.push('');
+    out.push('DAY BY DAY (in my own words)');
+    ks.slice().reverse().forEach(function (k) {
+      var d = DB.days[k];
+      out.push('');
+      out.push(fromKey(k).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }));
+      d.order.forEach(function (s) {
+        var v = d.captured[s], bits = [];
+        if (v.score != null) bits.push(v.score + '/10'); if (v.detail) bits.push(v.detail);
+        out.push('  - ' + CATS[s].label + (bits.length ? ': ' + bits.join(', ') : '') + (v.quote ? '  "' + v.quote + '"' : ''));
+      });
+    });
+    out.push('');
+    out.push('Self-reported via Tide. Not a diagnosis.');
+    download('tide-gp-summary-' + todayKey() + '.txt', out.join('\n'), 'text/plain');
+  });
+
+  /* ---------- You ---------- */
+  function renderYou() {
+    $('youName').value = DB.profile.name; $('youAge').value = DB.profile.age; $('youErr').textContent = '';
+    var n = loggedDays().length;
+    $('dataInfo').textContent = n ? n + (n === 1 ? ' day' : ' days') + ' logged since ' + fromKey(loggedDays()[0]).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + '.' : 'No days logged yet.';
+  }
+  $('youForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var p = readProfile($('youName'), $('youAge'), $('youErr'));
+    if (!p) return;
+    DB.profile.name = p.name; DB.profile.age = p.age; persist();
+    toast('Saved');
+  });
+  $('exportBtn').addEventListener('click', function () {
+    download('tide-backup-' + todayKey() + '.json', JSON.stringify(DB, null, 2), 'application/json');
+  });
+  $('importIn').addEventListener('change', function () {
+    var f = this.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () {
+      try {
+        var d = JSON.parse(r.result);
+        if (!d || typeof d.days !== 'object' || !d.profile) throw new Error('bad');
+        if (!confirm('Replace what’s on this device with this backup?')) return;
+        DB = d; persist(); renderYou(); toast('Backup restored');
+      } catch (err) { toast('That file isn’t a Tide backup'); }
+    };
+    r.readAsText(f);
+    this.value = '';
+  });
+  $('wipeBtn').addEventListener('click', function () {
+    if (!confirm('Delete your name, age and every check-in from this device? This can’t be undone.')) return;
+    DB = { profile: null, days: {} };
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    $('nameIn').value = ''; $('ageIn').value = '';
+    go('welcome');
+  });
 
   /* ---------- Start ---------- */
-  var start = (location.hash || '#welcome').slice(1);
-  go(document.getElementById(start) ? start : 'welcome');
+  var start = (location.hash || '').slice(1);
+  if (!DB.profile) go('welcome');
+  else go(document.getElementById(start) && ['welcome', 'about'].indexOf(start) === -1 ? start : 'today');
 })();
 </script>
 </body>
